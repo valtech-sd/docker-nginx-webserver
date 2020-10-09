@@ -4,7 +4,7 @@
   "description": "A simple dockerized website using Nginx",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf ./built && tsc"
+    "build": "rm -rf ./built && tsc"
   },
   "repository": {
     "type": "git",
@@ -21,7 +21,6 @@
     "@typescript-eslint/parser": "^4.4.0",
     "eslint": "^7.10.0",
     "prettier": "^2.1.2",
-    "rimraf": "^3.0.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
   }
