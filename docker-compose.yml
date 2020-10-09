@@ -1,0 +1,28 @@
+# Our basic docker-compose file that does a few convenient things
+version: "3.7"
+services:
+  # Our final image will be known as "website"
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # This defines where the working directory will be
+    working_dir: /home/node/app
+
+    # This passes the environment variables from the .env file
+    # to our Docker container
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    # Here, we bind our repository to our Docker container
+    # In our first build step, we use the package.json file
+    # to install dependencies within our container
+    volumes:
+      - type: bind
+        source: .
+        target: /home/node/app
+
+    # Bind Docker's port 443 to our port 443
+    ports:
+      - "443:443"
