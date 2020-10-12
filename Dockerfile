@@ -9,9 +9,9 @@
 # ********************************************
 
 # Start with a lightweight Linux distro (Alpine Linux)
-# We call this stage ts-compiler so we can reference it
+# We call this stage build-step so we can reference it
 # in our other stages, if needed
-FROM node:lts-alpine AS ts-compiler
+FROM node:lts-alpine AS build-step
 
 # Create app directory
 # This is changing our working directory
@@ -104,13 +104,13 @@ FROM nginx
 COPY --from=generate-certs /openssl-certs/*.crt /etc/ssl/certs/
 COPY --from=generate-certs /openssl-certs/*.key /etc/ssl/private/
 
-# Copy nginx config from ts-compiler container, which is bound to our repo
+# Copy nginx config from build-step container, which is bound to our repo
 # The configuration specifies that we serve our pages with https
-COPY --from=ts-compiler /home/node/app/nginx/nginx.conf /etc/nginx/conf.d
+COPY --from=build-step /home/node/app/nginx/nginx.conf /etc/nginx/sites-enabled/
 
 # Copy the built files from ts-compiler to the place where nginx
 # expects to find the files to serve up!
-COPY --from=ts-compiler /home/node/app/built /usr/share/nginx/html
+COPY --from=build-step /home/node/app/built /usr/share/nginx/html
 
 # Expose our HTTPS port (443)
 # EXPOSE 80 # for regular http
