@@ -15,14 +15,7 @@ services:
     environment:
       DOMAIN_NAME: ${DOMAIN_NAME}
 
-    # Here, we bind our repository to our Docker container
-    # In our first build step, we use the package.json file
-    # to install dependencies within our container
-    volumes:
-      - type: bind
-        source: .
-        target: /home/node/app
-
     # Bind Docker's port 443 to our port 443
+    # This should be specified as Outgoing Port : Docker Port
     ports:
-      - "443:443"
+      - "4444:443"
