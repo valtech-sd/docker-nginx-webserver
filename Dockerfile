@@ -82,8 +82,8 @@ RUN mkdir openssl-certs
 # AltName is other domains the cert can be used for
 
 # We will be using our certs to access our site via https!
-RUN openssl req -x509 -nodes -days 365 -subj "/C=US/ST=CA/O=Valtech, Inc./CN=${DOMAIN_NAME}.com" \
--addext "subjectAltName=DNS:*.${DOMAIN_NAME}.com" -newkey rsa:2048 -keyout /openssl-certs/nginx-selfsigned.key \
+RUN openssl req -x509 -nodes -days 365 -subj "/C=US/ST=CA/O=Valtech, Inc./CN=${DOMAIN_NAME}" \
+-addext "subjectAltName=DNS:*.${DOMAIN_NAME}" -newkey rsa:2048 -keyout /openssl-certs/nginx-selfsigned.key \
 -out /openssl-certs/nginx-selfsigned.crt;
 
 # We now have another container that has our certicates
@@ -106,7 +106,7 @@ COPY --from=generate-certs /openssl-certs/*.key /etc/ssl/private/
 
 # Copy nginx config from build-step container, which is bound to our repo
 # The configuration specifies that we serve our pages with https
-COPY --from=build-step /home/node/app/nginx/nginx.conf /etc/nginx/sites-enabled/
+COPY --from=build-step /home/node/app/nginx/nginx.conf /etc/nginx/conf.d
 
 # Copy the built files from ts-compiler to the place where nginx
 # expects to find the files to serve up!
@@ -115,3 +115,4 @@ COPY --from=build-step /home/node/app/built /usr/share/nginx/html
 # Expose our HTTPS port (443)
 # EXPOSE 80 # for regular http
 EXPOSE 443
+EXPOSE 80

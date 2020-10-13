@@ -19,3 +19,4 @@ services:
     # This should be specified as Outgoing Port : Docker Port
     ports:
       - "4444:443"
+      - "8005:80"
