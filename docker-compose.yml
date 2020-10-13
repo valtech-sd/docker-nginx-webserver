@@ -1,0 +1,22 @@
+# Our basic docker-compose file that does a few convenient things
+version: "3.7"
+services:
+  # Our final image will be known as "website"
+  website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    # This defines where the working directory will be
+    working_dir: /home/node/app
+
+    # This passes the environment variables from the .env file
+    # to our Docker container
+    environment:
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
+    # Bind Docker's port 443 to our port 443
+    # This should be specified as Outgoing Port : Docker Port
+    ports:
+      - "4444:443"
+      - "8005:80"

@@ -1,0 +1,5 @@
+**/.DS_Store
+node_modules
+local_modules
+built
+.env.local

@@ -1,0 +1,27 @@
+{
+  "name": "docker-nginx-webserver",
+  "version": "1.0.0",
+  "description": "A simple dockerized website using Nginx",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./built && tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/valtech-sd/docker-nginx-webserver.git"
+  },
+  "author": "Valtech SD",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/valtech-sd/docker-nginx-webserver/issues"
+  },
+  "homepage": "https://github.com/valtech-sd/docker-nginx-webserver#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^4.4.0",
+    "@typescript-eslint/parser": "^4.4.0",
+    "eslint": "^7.10.0",
+    "prettier": "^2.1.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
