@@ -52,7 +52,7 @@ For more detailed instructions with pretty pictures, you can follow Manny's blog
 2. Add a line mapping from the localhost IP to your domain:
 `127.0.0.1       mydomain.com`
 3. Copy the self-signed certificate you generated during the multi-stage Docker build:
-`docker cp nginx-alpine-ssl:/etc/ssl/certs/nginx-selfsigned.crt ~/Desktop`
+`docker cp nginx-alpine-ssl:/etc/ssl/certs/nginx-selfsigned.crt ~/Desktop`. **Warning**: These certificates will be re-generated each time your run `docker-compose build`, and you will have to re-copy them to Keychain!
 4. Open up `Keychain Access > Certificates` (in the left panel). Drag the copied certificate file to the list of certificates.
 5. Double click your self-signed certificate in Keychain and change `Secure Sockets Layer (SSL)` to `Always trust`.
 6. Now you should be able to see your website at `https://mydomain.com`! And it's being served in a tidy, lightweight Nginx Docker.
