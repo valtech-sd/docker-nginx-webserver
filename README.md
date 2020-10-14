@@ -31,10 +31,33 @@ This is a simple example of how to build, generate certificates for, and serve a
 
 Much of this repo was made using [Coding with Manny's very useful blogpost](https://medium.com/@codingwithmanny/configure-self-signed-ssl-for-nginx-docker-from-a-scratch-7c2bcd5478c6), which outlines exactly how to generate ssl certificates and use Nginx with Docker to serve up a webpage. We've tweaked the process slightly, but it's very helpful!
 
-1. Run the multistage build with `docker-compose build`
+1. If desired, change the domain name you're serving up your webpage in the `.env` environment variables file. We're just using `mydomain.com` for testing. This domain is used to generate our self-signed certificates.
+2. Run the multistage build with `docker-compose build`
 2. Start the Docker container by running `docker-compose up`
 
-Now we technically have a website that's being served up at `https://localhost.com:4343`, but there's a few more steps to make things even better. [TODO]
+This will perform the multi-stage build process, and the result will be an Nginx Docker container serving your website files. In this example, we are serving and exposing the files on both port `80` (mapped to port `8005`) and port `443` (mapped to `443`), just for debugging purposes. To take a look at what we're serving up, you can type in your terminal:
 
+`curl https://localhost:443 --insecure`
+or
+`curl http://localhost:8005`
+to see the raw HTML of the webpage.
 
+Now we technically have a website that's being served up at `https://localhost.com:443`, but there's a few more steps to make things even better. If you try to access this URL from your browser, you will get a warning because the website is using self-signed certificates and is considered insecure. That's why we had to add the `--insecure` option when calling our curl command from the terminal. 
 
+## Trusting our website and domain mapping
+For more detailed instructions with pretty pictures, you can follow Manny's blogpost linked above.
+
+1. In your terminal, open up your `/etc/hosts` file from your favorite text editor:
+`sudo nano /etc/hosts;`
+2. Add a line mapping from the localhost IP to your domain:
+`127.0.0.1       mydomain.com`
+3. Copy the self-signed certificate you generated during the multi-stage Docker build:
+`docker cp nginx-alpine-ssl:/etc/ssl/certs/nginx-selfsigned.crt ~/Desktop`
+4. Open up `Keychain Access > Certificates` (in the left panel). Drag the copied certificate file to the list of certificates.
+5. Double click your self-signed certificate in Keychain and change `Secure Sockets Layer (SSL)` to `Always trust`.
+6. Now you should be able to see your website at `https://mydomain.com`! And it's being served in a tidy, lightweight Nginx Docker.
+
+## For the future:
+
+-  Notes about Nginx setup in general and debugging
+-  More detailed breakdown of the multistage Docker file
