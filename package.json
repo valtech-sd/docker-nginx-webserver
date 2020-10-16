@@ -4,7 +4,7 @@
   "description": "A simple dockerized website using Nginx",
   "main": "index.js",
   "scripts": {
-    "build": "rm -rf ./built && tsc"
+    "build": "parcel build ./src/index.html --target browser --no-minify --no-cache --no-content-hash --out-dir ./built"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
     "@typescript-eslint/eslint-plugin": "^4.4.0",
     "@typescript-eslint/parser": "^4.4.0",
     "eslint": "^7.10.0",
+    "parcel": "^1.12.4",
     "prettier": "^2.1.2",
     "ts-node": "^9.0.0",
     "typescript": "^4.0.3"
